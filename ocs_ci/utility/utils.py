@@ -4891,3 +4891,10 @@ def get_latest_release_version():
         return exec_cmd(cmd, shell=True).stdout.decode("utf-8").strip()
     except CommandFailed:
         return
+
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return super().default(obj)
