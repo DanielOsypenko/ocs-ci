@@ -4894,6 +4894,10 @@ def get_latest_release_version():
 
 
 class CustomJSONEncoder(json.JSONEncoder):
+    """
+    Custom JSON encoder to handle set objects
+    """
+
     def default(self, obj):
         if isinstance(obj, set):
             return list(obj)
