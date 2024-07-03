@@ -1,6 +1,7 @@
 import logging
 import random
 
+from ocs_ci.deployment.deployment import validate_acm_hub_install
 from ocs_ci.deployment.helpers.hypershift_base import (
     get_hosted_cluster_names,
 )
@@ -120,3 +121,19 @@ class TestProviderHosted(object):
 
         cluster_names = list(config.ENV_DATA["clusters"].keys())
         assert HostedODF(cluster_names[-1]).get_storage_client_status() == "Connected"
+
+    @runs_on_provider
+    @hci_provider_required
+    def test_deploy_acm(self):
+        """
+        Test deploy dependencies
+        """
+        logger.info("Test deploy dependencies ACM")
+        HypershiftHostedOCP("dummy").deploy_dependencies(
+            deploy_acm_hub=True,
+            deploy_cnv=False,
+            deploy_metallb=False,
+            download_hcp_binary=False,
+        )
+        # check if ACM installed and configured
+        assert validate_acm_hub_install(), "ACM not installed or MCE not configured"

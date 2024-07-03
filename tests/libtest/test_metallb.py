@@ -32,7 +32,7 @@ class TestMetalLB(object):
         request.addfinalizer(teardown)
 
     @purple_squad
-    def test_install_metallb(self):
+    def test_install_uninstall_metallb(self):
         """
         Test MetalLB installation
         """
