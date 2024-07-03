@@ -395,7 +395,11 @@ class HypershiftHostedOCP(HyperShiftBase, MetalLBInstaller, CNVInstaller, Deploy
             logger.info(
                 f"Changing the default StorageClass to {constants.CEPHBLOCKPOOL_SC}"
             )
-            helpers.change_default_storageclass(scname=constants.CEPHBLOCKPOOL_SC)
+            try:
+                helpers.change_default_storageclass(scname=constants.CEPHBLOCKPOOL_SC)
+            except CommandFailed as e:
+                logger.error(f"Failed to change default StorageClass: {e}")
+
         if deploy_cnv:
             self.deploy_cnv(check_cnv_ready=True)
         if deploy_acm_hub:
