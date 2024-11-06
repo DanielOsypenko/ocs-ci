@@ -25,7 +25,7 @@ from ocs_ci.ocs.resources.pod import (
     get_prometheus_pods,
 )
 from ocs_ci.ocs.resources.storage_cluster import get_storage_size
-from ocs_ci.ocs.ui.page_objects.block_and_file import BlockAndFile
+from ocs_ci.ocs.ui.page_objects.page_navigator import PageNavigator
 from ocs_ci.ocs.ui.validation_ui import ValidationUI
 from ocs_ci.utility.utils import TimeoutSampler
 
@@ -80,10 +80,18 @@ class TestConsumptionTrendUI(ManageTest):
             2. Verify the text information on the widget
 
         """
-        block_and_file_obj = BlockAndFile()
-        collected_tpl_of_days_and_avg = (
-            block_and_file_obj.odf_storagesystems_consumption_trend()
+
+        block_and_file_page = (
+            PageNavigator()
+            .nav_odf_default_page()
+            .nav_storage_systems_tab()
+            .nav_storagecluster_storagesystem_details()
+            .nav_block_and_file()
         )
+        collected_tpl_of_days_and_avg = (
+            block_and_file_page.odf_storagesystems_consumption_trend()
+        )
+
         avg_txt = "Average storage consumption"
         est_days_txt = "Estimated days until full"
         logger.info(
@@ -227,13 +235,13 @@ class TestConsumptionTrendUI(ManageTest):
         POD_OBJ.wait_for_delete(resource_name=active_mgr_pod_before_failover)
         # Below sleep is mandatory for mgr failover, if not the same pod will become active again.
 
-        check_failover = (
-            lambda: logger.info("Mgr Failover succeed")
-            if active_mgr_deployment_name_before_failover != self.get_active_mgr()[0]
-            else None
-        )
+        def _check_failover():
+            if active_mgr_deployment_name_before_failover != self.get_active_mgr()[0]:
+                logger.info("Mgr Failover succeed")
 
-        TimeoutSampler(timeout=120, sleep=15, func=check_failover)
+        _check_failover()
+
+        TimeoutSampler(timeout=120, sleep=15, func=_check_failover)
         logger.info(f"Scale down {active_mgr_deployment_name_before_failover} to 1")
         helpers.modify_deployment_replica_count(
             deployment_name=active_mgr_deployment_name_before_failover, replica_count=1
