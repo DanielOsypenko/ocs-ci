@@ -145,6 +145,9 @@ class TestCapacityBreakdownUI(ManageTest):
         7. delete all mgr pods
         8. verify the capacity breakdown card on UI
         """
+        update_timeout = (
+            300 if config.ENV_DATA["platform"] == constants.ROSA_HCP_PLATFORM else 180
+        )
         test_results = dict()
 
         namespace = helpers.create_unique_resource_name("ui", "project")
@@ -226,9 +229,9 @@ class TestCapacityBreakdownUI(ManageTest):
         # update of the ui comes by portions. For example, the large PVC will be updated by parts, first it's filled
         # with 1Gi, then 2.5Gi, etc. This process is random, so we give a time to update the UI
         logger.info(
-            "finished deploying busybox, wait 180 sec to update the UI of the management-console"
+            f"finished deploying busybox, wait {update_timeout} sec to update the UI of the management-console"
         )
-        time.sleep(180)
+        time.sleep(update_timeout)
 
         storage_system_details = (
             PageNavigator()
@@ -255,9 +258,9 @@ class TestCapacityBreakdownUI(ManageTest):
         PvcCapacityDeploymentList().delete_pvc(random_pvc_to_delete.pvc_obj)
 
         logger.info(
-            "finished deleting deployment, wait 180 sec to update the UI of the management-console"
+            f"finished deleting deployment, wait {update_timeout} sec to update the UI of the management-console"
         )
-        time.sleep(180)
+        time.sleep(update_timeout)
         res = block_and_file.check_pvc_to_namespace_ui_card(
             namespace, "check_PVCs_and_depl_deleted"
         )
@@ -272,9 +275,9 @@ class TestCapacityBreakdownUI(ManageTest):
             # pods should redeploy automatically
             mgr_pods.delete(wait=True)
         logger.info(
-            "finished delete mgr pods, wait 180 sec to update the UI of the management-console"
+            f"finished delete mgr pods, wait {update_timeout} sec to update the UI of the management-console"
         )
-        time.sleep(180)
+        time.sleep(update_timeout)
         res = block_and_file.check_pvc_to_namespace_ui_card(
             namespace, "check_Used_Capacity_card_after_mgr_down"
         )
