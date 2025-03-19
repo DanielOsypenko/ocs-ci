@@ -1817,6 +1817,45 @@ class Deployment(object):
                     upgrade_osd_requires_healthy_pgs
                 )
 
+        # TODO: remove! temp value for testing
+        cluster_data["spec"].setdefault("allowRemoteStorageConsumers", True)
+        merge_dict(
+            cluster_data,
+            {
+                "spec": {
+                    "managedResources": {
+                        "cephBlockPools": {
+                            "disableSnapshotClass": True,
+                            "disableStorageClass": True,
+                            "reconcileStrategy": "ignore",
+                        },
+                        "cephFilesystems": {
+                            "disableSnapshotClass": True,
+                            "disableStorageClass": True,
+                        },
+                    }
+                }
+            },
+        )
+        merge_dict(
+            cluster_data,
+            {
+                "spec": {
+                    "providerAPIServerServiceType": "ClusterIP",
+                }
+            },
+        )
+        merge_dict(
+            cluster_data,
+            {
+                "spec": {
+                    "managedResources": {
+                        "cephObjectStores": {"hostNetwork": False},
+                    }
+                }
+            },
+        )
+
         cluster_data_yaml = tempfile.NamedTemporaryFile(
             mode="w+", prefix="cluster_storage", delete=False
         )
