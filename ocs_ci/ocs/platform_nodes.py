@@ -3250,18 +3250,18 @@ class IBMCloudBMNodes(NodesBase):
                 )
             except CommandFailed as err:
                 # Consider the situation where the cluster is not accessible after nodes are down,
-                # example: when all the nodes are off
+                # example: when all nods are off
                 if "Unable to connect to the server" in str(err):
                     logger.info(
                         f"Unable to connect to the server to check the nodes NotReady status. "
                         f"Trying alternate method to verify nodes {node_names} has stopped"
                     )
                     machines_not_off = (
-                        self.ibmcloud_bm.get_machines_that_are_not_off_from_sensor_data(
+                        self.ibmcloud_bm.check_if_machines_are_off_from_sensor_data(
                             machines
                         )
                     )
-                    assert not (
+                    assert (
                         machines_not_off
                     ), f"Nodes corresponding to the machines {machines_not_off} are not off."
                 else:

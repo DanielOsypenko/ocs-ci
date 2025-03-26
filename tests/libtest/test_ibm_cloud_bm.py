@@ -1,9 +1,9 @@
 import logging
 import pytest
 
-from ocs_ci.ocs.node import get_all_nodes, get_node_objs
 from ocs_ci.ocs.platform_nodes import IBMCloudBMNodes
 from ocs_ci.framework.testlib import libtest
+from ocs_ci.ocs import node
 from ocs_ci.framework.pytest_customization.marks import (
     provider_client_platform_required,
 )
@@ -12,27 +12,22 @@ from ocs_ci.framework.pytest_customization.marks import (
 logger = logging.getLogger(__name__)
 
 
+@pytest.fixture(autouse=True)
+def teardown(request):
+    def finalizer():
+        logger.info("Running restart_nodes_by_stop_and_start_teardown")
+        ibmcloud = IBMCloudBMNodes()
+        ibmcloud.restart_nodes_by_stop_and_start_teardown()
+
+    request.addfinalizer(finalizer)
+
+
 @libtest
 @provider_client_platform_required
-class TestIbmCloudBmNodes:
+def test_restart_nodes_by_stop_and_start():
     """
-    Test node operations in IBM Cloud Bare Metal platform
+    Check basic consistency in platform handling.
     """
-
-    @pytest.fixture(autouse=True)
-    def teardown(self, request):
-        def finalizer():
-            logger.info("Running restart_nodes_by_stop_and_start_teardown")
-            ibmcloud = IBMCloudBMNodes()
-            ibmcloud.restart_nodes_by_stop_and_start_teardown()
-
-        request.addfinalizer(finalizer)
-
-    def test_restart_nodes_by_stop_and_start(self):
-        """
-        Test all nodes stop and start in IBM Cloud Bare Metal platform
-        """
-        ibmcloud = IBMCloudBMNodes()
-        nodes = get_all_nodes()
-        node_objs = get_node_objs(nodes)
-        ibmcloud.restart_nodes_by_stop_and_start(node_objs)
+    ibmcloud = IBMCloudBMNodes()
+    worker_nodes = node.get_nodes(node_type="worker")
+    ibmcloud.restart_nodes_by_stop_and_start(worker_nodes)
