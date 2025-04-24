@@ -355,6 +355,13 @@ higher priority).
       * `hosted_odf_version` - version of ODF to be deployed on hosted clusters
       * `cp_availability_policy` - "HighlyAvailable" or "SingleReplica"; if not provided the default value is "SingleReplica"
       * `storage_quota` - storage quota for the hosted cluster
+      * `distribute_all_default_classes` - bool. distribute all default classes to hosted clusters including volumesnapshot classes. Not including VolumeGroupSnapshotClass, since it is tech preview in 4.19 and requires enablement procedure.
+      * `distribute_storage_classes` - list. distribute storage classes to hosted clusters
+        * <storage_class_name> - str. Name of the storage class
+      * `distribute_volumesnapshot_classes` - list. distribute volumesnapshot classes to hosted clusters. If set to None, script will not add this field. Otherwise it will add empty list '[]' to StorageConsumer yaml
+        * <volume_snapshot_class_name> - str. Name of the volumesnapshot class
+      * `distribute_volumegroupsnapshot_classes` - list. distribute volumegroupsnapshot classes to hosted clusters. If set to None, script will not add this field. Otherwise it will add empty list '[]' to StorageConsumer yaml. Is a tech preview feature of 4.19
+        * <volume_snapshot_class_name> - str. Name of the volumegroupsnapshot class
 * `wait_timeout_for_healthy_osd_in_minutes` - timeout waiting for healthy OSDs before continuing upgrade (see https://bugzilla.redhat.com/show_bug.cgi?id=2276694 for more details)
 * `osd_maintenance_timeout` - is a duration in minutes that determines how long an entire failureDomain like region/zone/host will be held in noout
 * `odf_provider_mode_deployment` - True if you would like to enable provider mode deployment.

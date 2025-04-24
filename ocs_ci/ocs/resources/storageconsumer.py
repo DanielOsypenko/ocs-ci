@@ -49,14 +49,42 @@ class StorageConsumer:
             kind=constants.STORAGECONSUMER,
             namespace=self.namespace,
         )
-        if self.consumer_context:
+        if isinstance(self.consumer_context, int):
             self.provider_context = config.cluster_ctx.MULTICLUSTER[
                 "multicluster_index"
             ]
+
             self.heartbeat_cronjob = self.get_heartbeat_cronjob()
         else:
             self.provider_context = None
             self.heartbeat_cronjob = None
+        self.storage_quota = (
+            config.ENV_DATA.get("clusters", {})
+            .get(self.name, {})
+            .get("storage_quota", None)
+        )
+        # if self.distribute_all_default_classes set to True, all default classes of storage cluster will be distributed
+        self.distribute_all_default_classes = (
+            config.ENV_DATA.get("clusters", {})
+            .get(self.name, {})
+            .get("distribute_all_default_classes", False)
+        )
+        self.distribute_storage_classes = (
+            config.ENV_DATA.get("clusters", {})
+            .get(self.name, {})
+            .get("distribute_storage_classes", [])
+        )
+        self.distribute_volumesnapshot_classes = (
+            config.ENV_DATA.get("clusters", {})
+            .get(self.name, {})
+            .get("distribute_volumesnapshot_classes", [])
+        )
+        # change None to [], for volumegroupsnapshot classes testing, when tech preview feature will be tested
+        self.distribute_volumegroupsnapshot_classes = (
+            config.ENV_DATA.get("clusters", {})
+            .get(self.name, {})
+            .get("distribute_volumegroupsnapshot_classes", None)
+        )
 
     def get_ocs_version(self):
         """
@@ -361,47 +389,74 @@ class StorageConsumer:
     @if_version(">4.18")
     def create_storage_consumer(
         self,
-        storage_classes=None,
-        volume_snapshot_classes=None,
-        volume_group_snapshot_classes=None,
-        storage_quota_in_gib=None,
         resource_name_mapping_config_map_name=None,
     ):
         """
         Create a storage consumer
 
         Args:
-            storage_classes (list): List of storage classes
-            volume_snapshot_classes (list): List of volume snapshot classes
-            volume_group_snapshot_classes (list): List of volume group snapshot classes
-            storage_quota_in_gib (int): Storage quota in GiB
             resource_name_mapping_config_map_name (str): Resource name mapping config map
 
         Returns:
             dict: Dictionary with consumer data
 
         """
+        if self.distribute_all_default_classes:
+            log.info("Distributing all default classes")
+            with config.RunWithConfigContext(self.provider_context):
+                from ocs_ci.ocs.ocp import OCP
+
+                sc_obj = OCP(
+                    kind="storageclass", namespace=config.ENV_DATA["cluster_namespace"]
+                )
+                sc_list_data = [
+                    sc
+                    for sc in sc_obj.get()["items"]
+                    if sc.get("provisioner")
+                    in [constants.RBD_PROVISIONER, constants.CEPHFS_PROVISIONER]
+                ]
+                # get existing rbd and cephfs storage classes by their suffixes
+                self.distribute_storage_classes = [
+                    sc["metadata"]["name"] for sc in sc_list_data
+                ]
+
+                vsc_obj = OCP(
+                    kind="volumesnapshotclass",
+                    namespace=config.ENV_DATA["cluster_namespace"],
+                )
+                vsc_list_data = [
+                    vsc
+                    for vsc in vsc_obj.get()["items"]
+                    if vsc.get("driver")
+                    in [constants.RBD_DRIVER, constants.CEPHFS_DRIVER]
+                ]
+                self.distribute_volumesnapshot_classes = [
+                    vsc["metadata"]["name"] for vsc in vsc_list_data
+                ]
+
         with config.RunWithConfigContext(self.consumer_context):
             storage_consumer_data = templating.load_yaml(
                 constants.STORAGE_CONSUMER_YAML
             )
             storage_consumer_data["metadata"]["name"] = self.name
             storage_consumer_data["metadata"]["namespace"] = self.namespace
-            if storage_classes:
+
+            if self.distribute_storage_classes is not None:
                 storage_consumer_data["spec"].setdefault(
-                    "storageClasses", storage_classes
+                    "storageClasses", self.distribute_storage_classes
                 )
-            if volume_snapshot_classes:
+            if self.distribute_volumesnapshot_classes is not None:
                 storage_consumer_data["spec"].setdefault(
-                    "volumeSnapshotClasses", volume_snapshot_classes
+                    "volumeSnapshotClasses", self.distribute_volumesnapshot_classes
                 )
-            if volume_group_snapshot_classes:
+            if self.distribute_volumegroupsnapshot_classes is not None:
                 storage_consumer_data["spec"].setdefault(
-                    "volumeGroupSnapshotClasses", volume_group_snapshot_classes
+                    "volumeGroupSnapshotClasses",
+                    self.distribute_volumegroupsnapshot_classes,
                 )
-            if storage_quota_in_gib:
+            if self.storage_quota:
                 storage_consumer_data["spec"].setdefault(
-                    "storageQuotaInGiB", storage_quota_in_gib
+                    "storageQuotaInGiB", self.storage_quota
                 )
             if resource_name_mapping_config_map_name:
                 storage_consumer_data["spec"].setdefault(
@@ -418,10 +473,6 @@ class StorageConsumer:
 
 def create_storage_consumer_on_default_cluster(
     consumer_name,
-    storage_classes=None,
-    volume_snapshot_classes=None,
-    volume_group_snapshot_classes=None,
-    storage_quota_in_gib=None,
     resource_name_mapping_config_map_name=None,
 ):
     """
@@ -429,27 +480,22 @@ def create_storage_consumer_on_default_cluster(
 
     Args:
         consumer_name (str): Name of the storage consumer
-        storage_classes (list): List of storage classes
-        volume_snapshot_classes (list): List of volume snapshot classes
-        volume_group_snapshot_classes (list): List of volume group snapshot classes
-        storage_quota_in_gib (int): Storage quota in GiB
         resource_name_mapping_config_map_name (str): Resource name mapping config map
 
     Returns:
         StorageConsumer: StorageConsumer object
 
     """
-    consumer_context = config.cluster_ctx.ENV_DATA.get(
+    # storageConsumer created on Storage cluster but not on client
+    default_cluster_context_index = config.cluster_ctx.ENV_DATA.get(
         "default_cluster_context_index", 0
     )
     storage_consumer = StorageConsumer(
-        consumer_name, config.ENV_DATA["cluster_namespace"], consumer_context
+        consumer_name,
+        config.ENV_DATA["cluster_namespace"],
+        default_cluster_context_index,
     )
     storage_consumer.create_storage_consumer(
-        volume_snapshot_classes=volume_snapshot_classes,
-        volume_group_snapshot_classes=volume_group_snapshot_classes,
-        storage_classes=storage_classes,
-        storage_quota_in_gib=storage_quota_in_gib,
-        resource_name_mapping_config_map_name=resource_name_mapping_config_map_name,
+        resource_name_mapping_config_map_name,
     )
     return storage_consumer

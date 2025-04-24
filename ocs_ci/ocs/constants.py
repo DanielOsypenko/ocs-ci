@@ -2210,6 +2210,9 @@ OCS_PROVISIONERS = [
 RBD_PROVISIONER = "openshift-storage.rbd.csi.ceph.com"
 CEPHFS_PROVISIONER = "openshift-storage.cephfs.csi.ceph.com"
 
+RBD_DRIVER = "openshift-storage.rbd.csi.ceph.com"
+CEPHFS_DRIVER = "openshift-storage.cephfs.csi.ceph.com"
+
 # Bucket Policy action lists
 bucket_website_action_list = ["PutBucketWebsite", "GetBucketWebsite", "PutObject"]
 bucket_version_action_list = ["PutBucketVersioning", "GetBucketVersioning"]
