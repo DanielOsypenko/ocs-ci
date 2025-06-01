@@ -853,7 +853,10 @@ class SeleniumDriver(WebDriver):
             # headless browsers are web browsers without a GUI
             headless = ocsci_config.UI_SELENIUM.get("headless")
             if headless:
-                chrome_options.add_argument("--headless=new")
+                # chrome_options.add_argument("--headless=new")
+                logger.info("Running Chrome in headless mode")
+                chrome_options.add_argument("--headless=old")
+                chrome_options.add_argument("--disable-gpu")
                 chrome_options.add_argument("window-size=1920,1400")
 
             # use proxy server, if required
@@ -908,9 +911,13 @@ class SeleniumDriver(WebDriver):
 
             chrome_browser_type = ocsci_config.UI_SELENIUM.get("chrome_type")
             driver = webdriver.Chrome(
-                ChromeDriverManager(chrome_type=chrome_browser_type).install(),
+                ChromeDriverManager(
+                    chrome_type=chrome_browser_type, driver_version="136.0.7103.113"
+                ).install(),
                 options=chrome_options,
             )
+            # if headless:
+            #     driver.set_window_size(1920, 1400)
         else:
             raise ValueError(f"No Support on {browser}")
         return driver
@@ -954,6 +961,7 @@ def login_ui(console_url=None, username=None, password=None):
     login_loc = locators_for_current_ocp_version()["login"]
     page_nav_loc = locators_for_current_ocp_version()["page"]
     driver = SeleniumDriver()
+    driver.set_window_size(1920, 1400)
     driver.maximize_window()
     driver.implicitly_wait(10)
     driver.get(console_url)
