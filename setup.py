@@ -9,7 +9,7 @@ except ImportError:
 
 setup(
     name="ocs-ci",
-    version="4.19.0",
+    version="4.18.0",
     description="OCS CI tests that run in jenkins and standalone mode using aws provider",
     author="OCS QE",
     author_email="ocs-ci@redhat.com",
@@ -23,9 +23,9 @@ setup(
         "reportportal-client==3.2.3",
         "requests==2.32.3",
         "paramiko==3.5.0",
-        "pyyaml>=4.2b1",
+        "pyyaml==6.0",
         "jinja2==3.1.6",
-        "openshift==0.11.2",
+        "openshift==0.13.2",
         "boto3==1.24.96",
         "munch==2.5.0",
         "pytest-progress==1.2.5",
