@@ -128,14 +128,12 @@ deployment_4_6 = {
         By.CSS_SELECTOR,
     ),
     "enable_encryption": (
-        '//span[@class="pf-v5-c-switch__toggle"] | '
-        '//span[@class="pf-c-switch__toggle"]',
+        '//span[contains(@class, "c-switch__toggle")]',
         By.XPATH,
     ),
     "click_install_lso_page": ("//button[text()='Install']", By.XPATH),
     "project_dropdown": (
-        'button[class="pf-v5-c-dropdown__toggle pf-m-plain"], '
-        'button[class="pf-c-dropdown__toggle pf-m-plain"]',
+        'button[class*="c-dropdown__toggle"][class*="pf-m-plain"]',
         By.CSS_SELECTOR,
     ),
     "OpenShift Container Storage": ('a[id="openshift-storage-link"]', By.CSS_SELECTOR),
@@ -160,13 +158,11 @@ deployment_4_7 = {
 
 deployment_4_9 = {
     "drop_down_projects": (
-        'button[class="pf-v5-c-menu-toggle co-namespace-dropdown__menu-toggle"], '
-        'button[class="pf-v6-c-menu-toggle co-namespace-dropdown__menu-toggle"], '
-        'button[class="pf-c-menu-toggle co-namespace-dropdown__menu-toggle"]',
+        'button[class*="c-menu-toggle"].co-namespace-dropdown__menu-toggle',
         By.CSS_SELECTOR,
     ),
     "enable_default_porjects": (
-        'span[class="pf-v5-c-switch__toggle"], span[class="pf-c-switch__toggle"]',
+        '[class*="c-switch__toggle"]',
         By.CSS_SELECTOR,
     ),
     "choose_openshift-storage_project": (
@@ -227,28 +223,23 @@ deployment_4_12 = {
 
 deployment_4_15 = {
     "drop_down_projects": (
-        'button[class="pf-v5-c-menu-toggle co-namespace-dropdown__menu-toggle"], '
-        'button[class="pf-v6-c-menu-toggle co-namespace-dropdown__menu-toggle"]',
+        'button[class*="c-menu-toggle"].co-namespace-dropdown__menu-toggle',
         By.CSS_SELECTOR,
     ),
     "drop_down_performance": (
-        "//*[@class='pf-v5-c-select odf-configure-performance__selector pf-u-mb-md'] | "
-        "//*[@class='pf-c-select odf-configure-performance__selector pf-u-mb-md']",
+        "//*[contains(@class, 'c-select') and contains(@class, 'odf-configure-performance__selector')]",
         By.XPATH,
     ),
     "lean_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Lean mode')] |"
-        "//span[@class='pf-c-select__menu-item-main' and contains(text(), 'Lean mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Lean mode')]",
         By.XPATH,
     ),
     "balanced_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Balanced mode')] | "
-        "//span[@class='pf-c-select__menu-item-main' and contains(text(), 'Balanced mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Balanced mode')]",
         By.XPATH,
     ),
     "performance_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Performance mode')] | "
-        "//span[@class='pf-c-select__menu-item-main' and contains(text(), 'Performance mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Performance mode')]",
         By.XPATH,
     ),
 }
@@ -412,8 +403,7 @@ generic_locators = {
         By.XPATH,
     ),
     "show_default_projects_toggle": (
-        "input[class='pf-c-switch__input'], input[class='pf-v5-c-switch__input'], "
-        "input[class='pf-v6-c-switch__input']",
+        "input[class*='c-switch__input']",
         By.CSS_SELECTOR,
     ),
     "developer_selected": ("//h2[.='Developer']", By.XPATH),
@@ -786,7 +776,7 @@ page_nav = {
     "choose_all_projects": ("//span[text()='All Projects']", By.XPATH),
     # show-default-projects works both for OCP 4.14 and 4.15
     "show-default-projects": (
-        ".pf-c-switch__toggle, .pf-v5-c-switch__toggle, .pf-v6-c-switch__toggle",
+        "[class*='c-switch__toggle']",
         By.CSS_SELECTOR,
     ),
 }
@@ -856,7 +846,7 @@ acm_page_nav_420 = {
 acm_configuration = {
     "cluster-sets": ("//a[normalize-space()='Cluster sets']", By.XPATH),
     "create-cluster-set": (
-        ".pf-c-button.pf-m-primary, .pf-v5-c-button.pf-m-primary",
+        "[class*='c-button'][class*='pf-m-primary']",
         By.CSS_SELECTOR,
     ),
     "cluster-set-name": (
@@ -878,7 +868,7 @@ acm_configuration = {
     "select-first-checkbox": ("input[name='checkrow0']", By.CSS_SELECTOR),
     "clear-search": ("//*[name()='path' and contains(@d,'M242.72 25')]", By.XPATH),
     "review-btn": (
-        ".pf-c-button.pf-m-primary, .pf-v5-c-button.pf-m-primary",
+        "[class*='c-button'][class*='pf-m-primary']",
         By.CSS_SELECTOR,
     ),
     "confirm-btn": ("button[type='submit']", By.CSS_SELECTOR),
@@ -894,14 +884,14 @@ acm_configuration = {
     "target-clusters": ("input[placeholder='Select clusters']", By.CSS_SELECTOR),
     "cluster-name-selection": ("//button[normalize-space()='{}']", By.XPATH),
     "next-btn": (
-        ".pf-c-button.pf-m-primary, .pf-v5-c-button.pf-m-primary",
+        "[class*='c-button'][class*='pf-m-primary']",
         By.CSS_SELECTOR,
     ),
     "nat-t-checkbox": ("input[type='checkbox']", By.CSS_SELECTOR),
     "gateway-count-btn": ("//button[@aria-label='Plus']", By.XPATH),
     "check-globalnet": ("//div[normalize-space()='True']", By.XPATH),
     "install-btn": (
-        ".pf-c-button.pf-m-primary.pf-m-progress, .pf-v5-c-button.pf-m-primary.pf-m-progress",
+        "[class*='c-button'][class*='pf-m-primary'][class*='pf-m-progress']",
         By.CSS_SELECTOR,
     ),
     "connection-status-1": (
@@ -1558,19 +1548,18 @@ storageclass = {
     ),
     "encryption": ("#storage-class-encryption", By.CSS_SELECTOR),
     "connections-details": (
-        ".pf-c-button.pf-m-link[data-test='edit-kms-link'], .pf-v5-c-button.pf-m-link[data-test='edit-kms-link']",
+        "[class*='c-button'][class*='pf-m-link'][data-test='edit-kms-link']",
         By.CSS_SELECTOR,
     ),
     "service-name": ("#kms-service-name", By.CSS_SELECTOR),
     "kms-address": ("#kms-address", By.CSS_SELECTOR),
     "kms-port": ("#kms-address-port", By.CSS_SELECTOR),
     "save-btn": (
-        ".pf-c-button.pf-m-secondary[data-test='save-action'], .pf-v5-c-button.pf-m-secondary[data-test='save-action']",
+        "[class*='c-button'][class*='pf-m-secondary'][data-test='save-action']",
         By.CSS_SELECTOR,
     ),
     "advanced-settings": (
-        ".pf-c-button.pf-m-link.ocs-storage-class-encryption__form-body, "
-        ".pf-v5-c-button.pf-m-link.ocs-storage-class-encryption__form-body",
+        "[class*='c-button'][class*='pf-m-link'].ocs-storage-class-encryption__form-body",
         By.CSS_SELECTOR,
     ),
     "backend-path": ("#kms-service-backend-path", By.CSS_SELECTOR),
@@ -1585,7 +1574,7 @@ storageclass = {
     ),
     "save-advanced-settings": ("#confirm-action", By.CSS_SELECTOR),
     "save-service-details": (
-        ".pf-c-button.pf-m-secondary[data-test='save-action'], .pf-v5-c-button.pf-m-secondary[data-test='save-action']",
+        "[class*='c-button'][class*='pf-m-secondary'][data-test='save-action']",
         By.CSS_SELECTOR,
     ),
     "create": ("#save-changes", By.CSS_SELECTOR),
@@ -1833,7 +1822,7 @@ validation_4_9 = {
     ),
     # show-default-projects works both on OCP 4.14 and 4.15
     "show-default-projects": (
-        ".pf-c-switch__toggle, .pf-v5-c-switch__toggle, .pf-v6-c-switch__toggle",
+        "[class*='c-switch__toggle']",
         By.CSS_SELECTOR,
     ),
     "ocs-storagecluster-storgesystem": (
