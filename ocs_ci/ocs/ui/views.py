@@ -189,8 +189,7 @@ deployment_4_9 = {
     "refresh_popup": ("//button[text()='Refresh web console']", By.XPATH),
     "advanced_deployment": ("//span[text()='Advanced']", By.XPATH),
     "expand_advanced_mode": (
-        'button[class="pf-v5-c-select__toggle"], '
-        'button[class="pf-c-select__toggle"]',
+        'button[class*="c-select__toggle"]',
         By.CSS_SELECTOR,
     ),
     "mcg_only_option": ("//button[text()='MultiCloud Object Gateway']", By.XPATH),
@@ -246,32 +245,32 @@ deployment_4_15 = {
 
 deployment_4_16 = {
     "osd_size_dropdown": (
-        "//*[@class='pf-v5-c-select dropdown--full-width'] | "
-        "//*[@class='pf-c-select dropdown--full-width']",
+        "//*[@class='c-select dropdown--full-width'] | "
+        "//*[@class='c-select dropdown--full-width']",
         By.XPATH,
     ),
     "drop_down_performance": (
-        "//*[@class='pf-v5-c-select odf-configure-performance__selector pf-v5-u-mb-md']",
+        "//*[@class='c-select odf-configure-performance__selector pf-v5-u-mb-md']",
         By.XPATH,
     ),
     "lean_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Lean mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Lean mode')]",
         By.XPATH,
     ),
     "balanced_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Balanced mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Balanced mode')]",
         By.XPATH,
     ),
     "performance_mode": (
-        "//span[@class='pf-v5-c-select__menu-item-main' and contains(text(), 'Performance mode')]",
+        "//span[contains(@class, 'c-select__menu-item-main') and contains(text(), 'Performance mode')]",
         By.XPATH,
     ),
 }
 
 deployment_4_17 = {
     "osd_size_dropdown": (
-        "//*[@class='pf-v5-c-select dropdown--full-width'] | "
-        "//*[@class='pf-c-select dropdown--full-width']",
+        "//*[@class='c-select dropdown--full-width'] | "
+        "//*[@class='c-select dropdown--full-width']",
         By.XPATH,
     ),
 }
@@ -292,9 +291,7 @@ deployment_4_19 = {
 
 generic_locators = {
     "project_selector": (
-        "//span[@class='pf-c-menu-toggle__text' and contains(text(), 'Project:')] | "
-        "//span[@class='pf-v5-c-menu-toggle__text' and contains(text(), 'Project:')] |"
-        "//span[@class='pf-v6-c-menu-toggle__text' and contains(text(), 'Project:')]",
+        "//span[contains(@class, 'c-menu-toggle__text') and contains(text(), 'Project:')]",
         By.XPATH,
     ),
     "select_openshift-storage_project": (
@@ -346,11 +343,11 @@ generic_locators = {
     "remove_search_filter": ('button[aria-label="close"]', By.CSS_SELECTOR),
     "delete_resource_kebab_button": ('//*[contains(text(), "Delete")]', By.XPATH),
     "text_input_popup_rules": (
-        "//*[@class='pf-c-helper-text__item-text'] | "
+        "//*[@class='c-helper-text__item-text'] | "
         "//div[@data-test='field-requirements-popover']"
-        "//*[@class='pf-v5-c-helper-text__item-text'] | "
-        "//ul//span[@class='pf-v5-c-helper-text__item-text'] | "
-        "//ul[@class='pf-v5-c-helper-text']",
+        "//*[@class='c-helper-text__item-text'] | "
+        "//ul//span[@class='c-helper-text__item-text'] | "
+        "//ul[@class='c-helper-text']",
         By.XPATH,
     ),
     "ocp-overview-status-storage-popup-btn": (
@@ -358,13 +355,13 @@ generic_locators = {
         By.XPATH,
     ),
     "ocp-overview-status-storage-popup-content": (
-        "//div[@class='pf-v5-c-popover__content']//div[contains(.,'Storage')] | "
-        "//div[@class='pf-c-popover__content']//div[contains(.,'Storage')]",
+        "//div[@class='c-popover__content']//div[contains(.,'Storage')] | "
+        "//div[@class='c-popover__content']//div[contains(.,'Storage')]",
         By.XPATH,
     ),
     "searchbar-dropdown": (
-        "//div[@class='pf-c-toolbar__item']//span[@class='pf-c-dropdown__toggle-text'] | "
-        "//div[@class='pf-v5-c-toolbar__item']//span[@class='pf-v5-c-dropdown__toggle-text'] | "
+        "//div[@class='c-toolbar__item']//span[contains(@class, 'c-dropdown__toggle-text')] | "
+        "//div[@class='c-toolbar__item']//span[contains(@class, 'c-dropdown__toggle-text')] | "
         "//div[@class='pf-v6-c-input-group co-filter-group']//button/span",
         By.XPATH,
     ),
@@ -498,7 +495,7 @@ obc = {
     "select_administrator": (
         "//a[contains(@class,'c-dropdown__menu-item')]"
         "//h2[contains(@class, 'c-title pf-m-md')][normalize-space()='Administrator'] | "
-        "//h2[.='Administrator']/ancestor::button[@class='pf-v5-c-menu__item']",
+        "//h2[.='Administrator']/ancestor::button[contains(@class, 'c-menu__item')]",
         By.XPATH,
     ),
     "obc_menu_name": (
@@ -694,7 +691,7 @@ pvc_4_12 = {
 pvc_4_14 = {
     # tested on both for 4.14 and 4.15
     "create_pvc_dropdown_item": (
-        "//button[(@class='pf-c-dropdown__menu-item' or @class='pf-v5-c-dropdown__menu-item') "
+        "//button[contains(@class, 'c-dropdown__menu-item') "
         "and contains(text(), 'With Form')]",
         By.XPATH,
     ),
@@ -769,8 +766,8 @@ page_nav = {
     ),
     "odf_tab": ("OpenShift Data Foundation", By.LINK_TEXT),
     "drop_down_projects": (
-        'button[class="pf-v5-c-menu-toggle co-namespace-dropdown__menu-toggle"], '
-        'button[class="pf-v6-c-menu-toggle co-namespace-dropdown__menu-toggle"]',
+        'button[class*="c-menu-toggle co-namespace-dropdown__menu-toggle"], '
+        'button[class*="c-menu-toggle co-namespace-dropdown__menu-toggle"]',
         By.CSS_SELECTOR,
     ),
     "choose_all_projects": ("//span[text()='All Projects']", By.XPATH),
@@ -799,7 +796,7 @@ acm_page_nav = {
     "Welcome_page": ("Welcome", By.LINK_TEXT),
     "Overview_page": ("Overview", By.LINK_TEXT),
     "Infrastructure": (
-        "//button[normalize-space()='Infrastructure' and @class='pf-v5-c-nav__link']",
+        "//button[normalize-space()='Infrastructure' and contains(@class, 'c-nav__link')]",
         By.XPATH,
     ),
     "Clusters_page": ("Clusters", By.LINK_TEXT),
@@ -821,7 +818,7 @@ acm_page_nav = {
 }
 acm_page_nav_419 = {
     "Infrastructure": (
-        "//button[normalize-space()='Infrastructure' and @class='pf-v6-c-nav__link']",
+        "//button[normalize-space()='Infrastructure' and contains(@class, 'c-nav__link')]",
         By.XPATH,
     ),
     "click-local-cluster": (
@@ -1062,30 +1059,26 @@ acm_configuration_4_12 = {
     # works for OCP 4.12 to 4.15
     "all-clusters_dropdown": (
         "//a[normalize-space()='All Clusters'] | "
-        "//span[(@class='pf-c-menu-toggle__text' or @class='pf-v5-c-menu-toggle__text'"
-        " or @class='pf-v6-c-menu-toggle__text') "
+        "//span[contains(@class, 'c-menu-toggle__text') "
         "and normalize-space()='All Clusters']/..",
         By.XPATH,
     ),
     # works for OCP 4.12 to 4.15
     "all-clusters_dropdown_item": (
-        "//span[(@class='pf-c-menu__item-text' or @class='pf-v5-c-menu__item-text'"
-        " or @class='pf-v6-c-menu__item-text') "
+        "//span[contains(@class, 'c-menu__item-text') "
         "and text()='All Clusters']/..",
         By.XPATH,
     ),
     # works for OCP 4.12 to 4.15
     "local-cluster_dropdown": (
         "//h2[text()='local-cluster'] | "
-        "//span[(@class='pf-c-menu-toggle__text' or @class='pf-v5-c-menu-toggle__text'"
-        " or @class='pf-v6-c-menu-toggle__text') "
+        "//span[contains(@class, 'c-menu-toggle__text') "
         "and text()='local-cluster']/..",
         By.XPATH,
     ),
     # works for OCP 4.12 to 4.15
     "local-cluster_dropdown_item": (
-        "//span[(@class='pf-c-menu__item-text' or @class='pf-v5-c-menu__item-text'"
-        " or @class='pf-v6-c-menu__item-text') "
+        "//span[contains(@class, 'c-menu__item-text') "
         "and text()='local-cluster']/..",
         By.XPATH,
     ),
@@ -1106,7 +1099,7 @@ acm_configuration_4_12 = {
         "//input[contains(@class, 'c-text-input-group__text-input')]",
         By.XPATH,
     ),
-    "apply-filter": ("//div[@class='pf-c-select']", By.XPATH),
+    "apply-filter": ("//div[@class='c-select']", By.XPATH),
     "clear-filter": (
         "(//button[@type='button'][normalize-space()='Clear all filters'])[2]",
         By.XPATH,
@@ -1121,7 +1114,7 @@ acm_configuration_4_12 = {
     "relocate-app": ("//button[normalize-space()='Relocate application']", By.XPATH),
     "delete-app": ("//button[normalize-space()='Delete application']", By.XPATH),
     "remove-app-resources": (".//*[@id='remove-app-resources']", By.XPATH),
-    "delete": ("//button[@type='button'][@class='pf-c-button pf-m-danger']", By.XPATH),
+    "delete": ("//button[@type='button'][@class='c-button pf-m-danger']", By.XPATH),
     "no-results-found": ("//*[text()='No results found']", By.XPATH),
     "policy-dropdown": ("#drPolicy-selection", By.CSS_SELECTOR),
     "select-policy": ('//*[text()="{}"]', By.XPATH),
@@ -1132,14 +1125,14 @@ acm_configuration_4_12 = {
     "failover-preferred-cluster-name": ("//button[text()='{}']", By.XPATH),
     "operation-readiness": ("//*[contains(text(), 'Ready')]", By.XPATH),
     "subscription-dropdown": (
-        "(//div[@class='pf-v5-c-select__toggle pf-m-typeahead'])[1]",
+        "(//div[contains(@class, 'c-select__toggle') and contains(@class, 'pf-m-typeahead')])[1]",
         By.XPATH,
     ),
     "peer-ready": ("//i[normalize-space()='Peer ready']", By.XPATH),
     "initiate-action": ("#modal-intiate-action", By.CSS_SELECTOR),
     "close-action-modal": ("//button[normalize-space()='Close']", By.XPATH),
     "close-action-modal-page": ("//*[text()='Close']", By.XPATH),
-    "title-alert-after-action": ("//h4[@class='pf-c-alert__title']", By.XPATH),
+    "title-alert-after-action": ("//h4[@class='c-alert__title']", By.XPATH),
     "clear-filters": (
         "(//button[@type='button'][normalize-space()='Clear all filters'])[2]"
     ),
@@ -1223,11 +1216,11 @@ acm_configuration_4_16 = {
         By.XPATH,
     ),
     "app-name-1": (
-        "(//span[@class='pf-v5-c-menu__item-text'][normalize-space()='busybox-1'])[1]",
+        "(//span[contains(@class, 'c-menu__item-text')][normalize-space()='busybox-1'])[1]",
         By.XPATH,
     ),
     "app-name-2": (
-        "(//span[@class='pf-v5-c-menu__item-text'][normalize-space()='busybox-1'])[2]",
+        "(//span[contains(@class, 'c-menu__item-text')][normalize-space()='busybox-1'])[2]",
         By.XPATH,
     ),
 }
@@ -1243,18 +1236,18 @@ acm_configuration_4_18 = {
         By.CSS_SELECTOR,
     ),
     "inconsistent-warning-alert": (
-        "//h4[@class='pf-v5-c-alert__title']",
+        "//h4[@class='c-alert__title']",
         By.XPATH,
     ),
     "cancel-action-modal": ("#modal-cancel-action", By.CSS_SELECTOR),
     "clear-filter": (
-        "div[class='pf-v5-c-toolbar__content pf-m-chip-container'] "
-        "div[class='pf-v5-c-toolbar__item'] button[type='button']",
+        "div[class='c-toolbar__content pf-m-chip-container'] "
+        "div[class='c-toolbar__item'] button[type='button']",
         By.CSS_SELECTOR,
     ),
-    "apply-filter": ("//div[@class='pf-v5-c-select']", By.XPATH),
+    "apply-filter": ("//div[@class='c-select']", By.XPATH),
     "kebab-action": (
-        "(//td[@class='pf-v5-c-table__td pf-v5-c-table__action']//button)[1]",
+        "(//td[contains(@class, 'c-table__td pf-v5-c-table__action']//button)[1]",
         By.XPATH,
     ),
     "failover-app": (
@@ -1304,7 +1297,7 @@ acm_configuration_4_19 = {
     ),
     "filter-vms": ("input[placeholder='Filter VirtualMachines']", By.CSS_SELECTOR),
     "filter-with-name": (
-        "(//span[@class='pf-v5-c-menu__item-text'][normalize-space()='name'])[1]",
+        "(//span[contains(@class, 'c-menu__item-text')][normalize-space()='name'])[1]",
         By.XPATH,
     ),
     "filter-vms-2": ("input[aria-label='Search input']", By.CSS_SELECTOR),
@@ -1325,10 +1318,10 @@ acm_configuration_4_19 = {
     "name-input-btn": ("#name-input", By.CSS_SELECTOR),
     "vm-page-next-btn": ("button[type='submit']", By.CSS_SELECTOR),
     "dr-policy": ("#pf-select-toggle-id-0", By.CSS_SELECTOR),
-    "select-policy": ("(//span[@class='pf-v5-c-select__menu-item-main'])[1]", By.XPATH),
+    "select-policy": ("(//span[contains(@class, 'c-select__menu-item-main')])[1]", By.XPATH),
     "selected-protection-type": ("//div[normalize-space()='{}']", By.XPATH),
     "assign": ("button[type='submit']", By.CSS_SELECTOR),
-    "conf-msg": ("(//h4[@class='pf-v5-c-alert__title'])[1]", By.XPATH),
+    "conf-msg": ("(//h4[@class='c-alert__title'])[1]", By.XPATH),
     "close-page": ("button[aria-label='Close']", By.CSS_SELECTOR),
     "select-shared": ("#shared-vm-protection", By.CSS_SELECTOR),
     "select-drpc": ("input[name='radioGroup']", By.CSS_SELECTOR),
@@ -1684,19 +1677,18 @@ validation = {
         By.XPATH,
     ),
     "req_capacity_dropdown_selected": (
-        "//div[@id='breakdown-card-title']/following-sibling::*//*[@class = 'pf-c-select__toggle-text'] | "
-        "//div[@class='pf-v5-c-select ceph-capacity-breakdown-card-header__dropdown']"
-        "//*[@class='pf-v5-c-select__toggle-text']",
+        "//div[@id='breakdown-card-title']/following-sibling::*//*[contains(@class, 'c-select__toggle-text')] | "
+        "//div[@class='c-select ceph-capacity-breakdown-card-header__dropdown']"
+        "//*[contains(@class, 'c-select__toggle-text')]",
         By.XPATH,
     ),
     "req_capacity_dropdown_btn_one": (
-        "//div[@class='pf-c-select ceph-capacity-breakdown-card-header__dropdown'] | "
-        "//div[@class='pf-v5-c-select ceph-capacity-breakdown-card-header__dropdown']",
+        "//div[@class='c-select ceph-capacity-breakdown-card-header__dropdown'] | "
+        "//div[@class='c-select ceph-capacity-breakdown-card-header__dropdown']",
         By.XPATH,
     ),
     "req_capacity_dropdown_btn_two": (
-        "(//span[@class='pf-c-select__toggle-arrow'])[2] | "
-        "(//span[@class='pf-v5-c-select__toggle-arrow'])[2]",
+        "(//span[contains(@class, 'c-select__toggle-arrow')])[2]",
         By.XPATH,
     ),
     "req_capacity_dropdown_list_option": (
@@ -1717,7 +1709,7 @@ validation = {
     # Header of the dropdown element by attributes is very similar to the dropdown item itself.
     "select_administrator": (
         "//h2[@data-test-id='perspective-switcher-menu-option' and normalize-space()='Administrator']/ancestor"
-        "::button[@role='option'] | //h2[.='Administrator']/ancestor::button[@class='pf-v5-c-menu__item']",
+        "::button[@role='option'] | //h2[.='Administrator']/ancestor::button[contains(@class, 'c-menu__item')]",
         By.XPATH,
     ),
 }
@@ -1793,11 +1785,11 @@ validation_4_9 = {
         By.CSS_SELECTOR,
     ),
     "storagesystems": (
-        ".pf-c-breadcrumb__link, .pf-v5-c-breadcrumb__link",
+        "[class*='c-breadcrumb__link']",
         By.CSS_SELECTOR,
     ),
     "console_plugin_option": (
-        ".pf-c-button.pf-m-link.pf-m-inline[data-test='edit-console-plugin'], "
+        ".c-button.pf-m-link.pf-m-inline[data-test='edit-console-plugin'], "
         "button[data-test='edit-console-plugin']",
         By.CSS_SELECTOR,
     ),
@@ -1833,7 +1825,7 @@ validation_4_9 = {
     "system-capacity": ("//h2[normalize-space()='System Capacity']", By.XPATH),
     "ocs-storagecluster": ("//a[normalize-space()='ocs-storagecluster']", By.XPATH),
     "storagesystem-status-card": (
-        ".pf-c-button.pf-m-link.pf-m-inline.co-dashboard-card__button-link.co-status-card__popup, "
+        ".c-button.pf-m-link.pf-m-inline.co-dashboard-card__button-link.co-status-card__popup, "
         "button[data-test='health-popover-link']",
         By.CSS_SELECTOR,
     ),
@@ -1873,8 +1865,7 @@ validation_4_9 = {
     ),
     "backingstore-status": ("span[data-test='status-text']", By.CSS_SELECTOR),
     "backingstorage-breadcrumb": (
-        ".pf-v5-c-breadcrumb__link[data-test-id='breadcrumb-link-1'], "
-        ".pf-c-breadcrumb__link[data-test-id='breadcrumb-link-1']",
+        "[class*='c-breadcrumb__link'][data-test-id='breadcrumb-link-1']",
         By.CSS_SELECTOR,
     ),
     "bucketclass": ("a[data-test-id='horizontal-link-Bucket Class']", By.CSS_SELECTOR),
@@ -1884,8 +1875,7 @@ validation_4_9 = {
     ),
     "bucketclass-status": ("//span[@data-test='status-text']", By.XPATH),
     "bucketclass-breadcrumb": (
-        ".pf-v5-c-breadcrumb__link[data-test-id='breadcrumb-link-1'], "
-        ".pf-c-breadcrumb__link[data-test-id='breadcrumb-link-1']",
+        "[class*='c-breadcrumb__link'][data-test-id='breadcrumb-link-1']",
         By.CSS_SELECTOR,
     ),
     "namespace-store": ("//a[normalize-space()='Namespace Store']", By.XPATH),
@@ -1905,7 +1895,7 @@ validation_4_10 = {
     ),
     "performance-card": ("//div[contains(text(),'Performance')]", By.XPATH),
     "storagesystem-status-card": (
-        ".pf-c-button.pf-m-link.pf-m-inline.co-status-card__popup, button[data-test='health-popover-link']",
+        ".c-button.pf-m-link.pf-m-inline.co-status-card__popup, button[data-test='health-popover-link']",
         By.CSS_SELECTOR,
     ),
     "storage-system-health-card-hyperlink": (
@@ -1957,15 +1947,15 @@ validation_4_13 = {
         By.XPATH,
     ),
     "status-storage-popup-content": (
-        "//div[@class='pf-v5-c-popover pf-m-top']//*[contains(text(), 'Storage System')] | "
-        "//div[@class='pf-c-popover pf-m-top']//*[contains(text(), 'Storage System')] |"
+        "//div[@class='c-popover pf-m-top']//*[contains(text(), 'Storage System')] | "
+        "//div[@class='c-popover pf-m-top']//*[contains(text(), 'Storage System')] |"
         "//div[@class='odf-status-card__popup--margin']//a[contains(text(),'ocs-storagecluster')]",
         By.XPATH,
     ),
     "namespace-store-tab-active": (
-        "//button[@class='pf-c-tabs__link' and @aria-selected='true']"
+        "//button[contains(@class, 'c-tabs__link') and @aria-selected='true']"
         "//span[normalize-space()='Namespace Store'] | "
-        "//button[@class='pf-v5-c-tabs__link' and @aria-selected='true']"
+        "//button[contains(@class, 'c-tabs__link') and @aria-selected='true']"
         "//span[normalize-space()='Namespace Store']",
         By.XPATH,
     ),
@@ -2002,7 +1992,7 @@ validation_4_17 = {
     "select_administrator": (
         "//a[@class='pf-c-dropdown__menu-item']//h2[@class='pf-c-title pf-m-md'][normalize-space()='Administrator'] | "
         "//a[@class='pf-m-icon pf-v5-c-dropdown__menu-item']//h2[normalize-space()='Administrator'] | "
-        "//h2[.='Administrator']/ancestor::button[@class='pf-v5-c-menu__item']",
+        "//h2[.='Administrator']/ancestor::button[contains(@class, 'c-menu__item')]",
         By.XPATH,
     ),
 }
@@ -2011,31 +2001,31 @@ validation_4_18 = {
     "encryption_summary": {
         "file_and_block": {
             "enabled": (
-                "//button[@class='pf-v5-c-button pf-m-link pf-m-inline' and "
+                "//button[@class='c-button pf-m-link pf-m-inline' and "
                 "(text()='Enabled' or text()='Not enabled')]",
                 By.XPATH,
             ),
             "close": (
-                "//button[@class='pf-v5-c-button pf-m-plain' and @aria-label='Close']",
+                "//button[@class='c-button pf-m-plain' and @aria-label='Close']",
                 By.XPATH,
             ),
             "encryption_content_data": (
-                "//div[@class='pf-v5-c-popover__body']",
+                "//div[@class='c-popover__body']",
                 By.XPATH,
             ),
         },
         "object_storage": {
             "enabled": (
-                "//button[@class='pf-v5-c-button pf-m-link pf-m-inline' and "
+                "//button[@class='c-button pf-m-link pf-m-inline' and "
                 "(text()='Enabled' or text()='Not enabled')]",
                 By.XPATH,
             ),
             "close": (
-                "//button[@class='pf-v5-c-button pf-m-plain' and @aria-label='Close']",
+                "//button[@class='c-button pf-m-plain' and @aria-label='Close']",
                 By.XPATH,
             ),
             "encryption_content_data": (
-                "//div[@class='pf-v5-c-popover__content']",
+                "//div[@class='c-popover__content']",
                 By.XPATH,
             ),
         },
@@ -2283,7 +2273,7 @@ bucket_tab = {
         By.CSS_SELECTOR,
     ),
     "create_folder_button": (
-        "div.pf-v5-u-w-50 > div > button.pf-v5-c-button",
+        "div.pf-v5-u-w-50 > div > button.c-button",
         By.CSS_SELECTOR,
     ),
     "folder_name_input": (
@@ -2311,11 +2301,11 @@ bucket_tab = {
         By.XPATH,
     ),
     "pagination_next_button": (
-        "button[class='pf-v5-c-button pf-m-plain pf-v5-u-ml-xs'] svg",
+        "button[class='c-button pf-m-plain pf-v5-u-ml-xs'] svg",
         By.CSS_SELECTOR,
     ),
     "pagination_prev_button": (
-        "button[class='pf-v5-c-button pf-m-plain pf-v5-u-mr-xs'] svg",
+        "button[class='c-button pf-m-plain pf-v5-u-mr-xs'] svg",
         By.CSS_SELECTOR,
     ),
     "bucket_list_items": (
@@ -2331,7 +2321,7 @@ bucket_tab = {
         By.CSS_SELECTOR,
     ),
     "bucket_confirm_button": (
-        ".pf-v5-c-button.pf-m-danger.pf-m-progress",
+        ".c-button.pf-m-danger.pf-m-progress",
         By.CSS_SELECTOR,
     ),
     "bucket_confirm_input": (
