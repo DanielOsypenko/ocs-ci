@@ -88,8 +88,8 @@ class ROSAOCP(BaseOCPDeployment):
 
         """
         # AWS does not guarantee machines provisioning time,
-        # we need to wait up to 3 hours (observed time)
-        wait_replicas_ready_timeout = 60 * 60 * 3
+        # we need to wait up to 6 hours (observed time)
+        wait_replicas_ready_timeout = 60 * 60 * 6
         if (
             config.ENV_DATA.get("appliance_mode", False)
             and config.ENV_DATA.get("cluster_type", "") == "provider"
