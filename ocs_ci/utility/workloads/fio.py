@@ -85,7 +85,8 @@ def run(**kwargs):
         else:
             args = args + f" --{k}={v}"
         if k == "runtime" and v > timeout:
-            timeout = v  # for FIO with longer runtime, change the timeout
+            # Add FIO_TIMEOUT_BUFFER (600s) for verify pass, fsync, and output
+            timeout = v + 600
     fio_cmd = fio_cmd + args
     fio_cmd += " --output-format=json"
     log.info(f"Running cmd: {fio_cmd}")
