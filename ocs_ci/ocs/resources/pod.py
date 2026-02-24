@@ -53,6 +53,8 @@ from ocs_ci.ocs.constants import CSI_RBD_ADDON_NODEPLUGIN_LABEL_420
 
 logger = logging.getLogger(__name__)
 FIO_TIMEOUT = 600
+# Buffer added to FIO subprocess timeout to allow for verify pass, fsync, and JSON output
+FIO_TIMEOUT_BUFFER = 600
 
 TEXT_CONTENT = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, "
@@ -146,6 +148,12 @@ class Pod(OCS):
             Exception: In case of exception from FIO
         """
         logger.info(f"Waiting for FIO results from pod {self.name}")
+        # Auto-adjust timeout to match the subprocess timeout used in fio.run():
+        # when runtime > default timeout, fio.run() sets timeout = runtime + FIO_TIMEOUT_BUFFER.
+        # Ensure get_fio_results() waits at least as long.
+        fio_runtime = int(getattr(self, "io_params", {}).get("runtime", 0))
+        if fio_runtime + FIO_TIMEOUT_BUFFER > timeout:
+            timeout = fio_runtime + FIO_TIMEOUT_BUFFER
         try:
             result = self.fio_thread.result(timeout)
             if result:
