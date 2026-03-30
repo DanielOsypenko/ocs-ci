@@ -350,6 +350,8 @@ UI_SELENIUM:
   ignore_ssl: True
   ai_fallback: True
   llm_model: "claude:sonnet"
+  push_locator_upd_pr: False
+  pr_base_branch: ""  # leave empty to auto-detect from git upstream tracking branch
 
 # This section is related to performance tests which need Elasticsearch server
 PERF:

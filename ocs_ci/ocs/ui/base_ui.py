@@ -1330,6 +1330,11 @@ def close_browser():
             f"  Total cost    : ${session_cost:.4f}\n"
             f"  Total requests: {session_requests}"
         )
+    if ocsci_config.UI_SELENIUM.get("push_locator_upd_pr"):
+        from ocs_ci.ocs.ui.llm_tools.locator_pr import create_locator_pr
+
+        for pr_url in create_locator_pr():
+            logger.info("[AI_FALLBACK] Locator update PR created: %s", pr_url)
     try:
         take_screenshot("close_browser")
         copy_dom("close_browser")
